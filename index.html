@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rules of Checkers - A Comprehensive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            aspect-ratio: 1 / 1;
+            border: 4px solid #1e293b;
+        }
+        .square {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .square.light { background-color: #f1f5f9; }
+        .square.dark { background-color: #94a3b8; }
+        .piece {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .piece.blue { background-color: #3b82f6; border: 3px solid #1d4ed8; }
+        .piece.gray { background-color: #64748b; border: 3px solid #334155; }
+        .king-icon {
+            color: #fbbf24;
+            width: 60%;
+            height: 60%;
+            filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span class="font-bold text-xl tracking-tight text-blue-600 uppercase">Checkers Manual</span>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
+                <a href="#setup" class="hover:text-blue-600 transition">Setup</a>
+                <a href="#movement" class="hover:text-blue-600 transition">Movement</a>
+                <a href="#kings" class="hover:text-blue-600 transition">Kings</a>
+                <a href="#victory" class="hover:text-blue-600 transition">Victory</a>
+                <a href="#faq" class="hover:text-blue-600 transition">FAQ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="py-20 px-6 max-w-5xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold text-slate-900 mb-6">Master the Art of <span class="text-blue-600">Checkers</span></h1>
+        <p class="text-lg text-slate-600 max-w-2xl">
+            This digital guide provides a structured overview of the official rules of checkers, from the initial board configuration to advanced multi-directional hit mechanics. Designed for clarity and strategic insight.
+        </p>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 space-y-24 pb-24">
+
+        <!-- Section 1: Starting the Game -->
+        <section id="setup" class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i data-lucide="layout-grid" class="mr-3 text-blue-600"></i> Starting the Game
+                </h2>
+                <div class="space-y-4 text-slate-700">
+                    <p>
+                        The game is conducted on an eight-by-eight grid containing sixty-four distinct spaces. To ensure proper orientation, the board is positioned so that each player observes a light-colored square in their respective bottom-right corner. This foundational setup dictates the diagonal paths that all pieces will follow throughout the match.
+                    </p>
+                    <p>
+                        Player 1 initiates the setup with twelve blue pieces positioned on specific coordinates, primarily occupying rows F, G, and H on the dark squares. Conversely, Player 2 arranges twelve gray pieces across rows A, B, and C. It is a standard rule that Player 1 always executes the opening move, after which players proceed by alternating turns.
+                    </p>
+                    <p>
+                        Every piece is confined to the same color squares for the entire duration of the game because all movement and captures occur diagonally. Furthermore, a strict single occupancy rule applies, meaning no two pieces can occupy the same coordinate, and a move is only valid if the destination square is vacant.
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-lg border border-slate-200">
+                <div id="checkers-board" class="board-grid"></div>
+                <p class="text-center text-xs text-slate-400 mt-4 font-medium uppercase tracking-widest">Standard Starting Configuration</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Movement & Blocking -->
+        <section id="movement" class="space-y-12">
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 flex items-center">
+                        <i data-lucide="move" class="mr-3 text-blue-600"></i> Movement and Blocking
+                    </h2>
+                    <p class="text-slate-700 mb-4">
+                        Standard movement requires a player to advance their piece one diagonal space forward into an available empty slot. Strategic positioning is essential, as pieces can become obstructed by both friendly and opposing forces. A piece is considered blocked if it lacks any valid moves or hits, which can lead to a lockout situation.
+                    </p>
+                    <p class="text-slate-700">
+                        Path obstruction occurs when an adjacent diagonal space is occupied by a friendly piece or when an opponent's piece cannot be jumped because the space behind it is occupied or outside the board's boundaries. Understanding these limitations is key to maintaining board control and preventing your pieces from being neutralized.
+                    </p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 flex items-center">
+                        <i data-lucide="swords" class="mr-3 text-blue-600"></i> The Hit Mechanic
+                    </h2>
+                    <p class="text-slate-700 mb-4">
+                        Capturing, or performing a "hit," involves jumping over an opponent's piece and landing on the empty diagonal space directly behind it. The jumped piece is immediately removed from the board. Unlike some variations of the game, there is no forced move rule; players are free to choose between a standard move or a capture based on their strategic preference.
+                    </p>
+                    <p class="text-slate-700">
+                        Hits can be stacked if a piece lands and immediately finds another valid forward hit available. In such cases, the player may continue jumping in a single turn. It is important to note that regular pieces are restricted to forward captures, whereas promoted pieces gain significantly more flexibility in their attack patterns.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Kings -->
+        <section id="kings" class="bg-blue-600 text-white rounded-3xl p-8 md:p-12 shadow-xl overflow-hidden relative">
+            <div class="relative z-10">
+                <h2 class="text-3xl font-bold mb-8 flex items-center">
+                    Promotion and King Abilities
+                </h2>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="space-y-6">
+                        <p class="text-blue-50 leading-relaxed">
+                            A piece earns promotion to King status the moment it reaches the opponent's back row—the A Row for Player 1 or the H Row for Player 2. This transformation is immediate, even if it occurs in the middle of a sequence of stacked hits, allowing the new King to continue its turn with enhanced movement.
+                        </p>
+                        <p class="text-blue-50 leading-relaxed">
+                            The visual hallmark of this promotion is the immediate appearance of a vibrant yellow King icon positioned in the center of the piece. This design choice serves a critical functional purpose: it provides players with instant situational awareness, clearly distinguishing the agile, multi-directional units from standard forward-moving pieces. The icon acts as a constant reminder of the piece's "Agile Hit" and multi-directional travel capabilities.
+                        </p>
+                        <p class="text-blue-50 leading-relaxed">
+                            While regular pieces are restricted to forward movement, Kings can move one diagonal space in any direction—forward or backward. This agility extends to capturing; Kings can perform hits in any diagonal direction, allowing them to change paths during a sequence of jumps to clear the board more efficiently.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center p-8 bg-blue-700/50 rounded-2xl backdrop-blur-sm border border-white/10 space-y-6">
+                        <div class="flex space-x-8">
+                            <div class="text-center">
+                                <div class="w-20 h-20 rounded-full bg-blue-500 border-4 border-blue-800 shadow-inner flex items-center justify-center mb-2">
+                                    <i data-lucide="crown" class="king-icon"></i>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest font-bold opacity-80">Player 1 King</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-20 h-20 rounded-full bg-slate-500 border-4 border-slate-700 shadow-inner flex items-center justify-center mb-2">
+                                    <i data-lucide="crown" class="king-icon"></i>
+                                </div>
+                                <span class="text-xs uppercase tracking-widest font-bold opacity-80">Player 2 King</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-blue-100 italic text-center max-w-xs">
+                            "The yellow King icon serves as a clear indicator of the piece's new multi-directional abilities."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <i data-lucide="crown" class="absolute -bottom-12 -right-12 w-64 h-64 text-blue-500 opacity-20 transform -rotate-12"></i>
+        </section>
+
+        <!-- Section 4: Winning & FAQ -->
+        <section id="victory" class="grid md:grid-cols-2 gap-12">
+            <div>
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i data-lucide="trophy" class="mr-3 text-blue-600"></i> Winning the Game
+                </h2>
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 mb-2 uppercase text-xs tracking-wider">Total Capture</h3>
+                        <p class="text-slate-700 text-sm">
+                            The most common path to victory is through Total Capture, where a player successfully hits and removes every single piece belonging to the opponent from the board.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 mb-2 uppercase text-xs tracking-wider">The Lockout</h3>
+                        <p class="text-slate-700 text-sm">
+                            Alternatively, victory can be achieved by creating a Lockout situation. This occurs when the opponent is completely blocked and cannot make a single legal move or hit on their turn.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 mb-2 uppercase text-xs tracking-wider">Draw Conditions</h3>
+                        <p class="text-slate-700 text-sm">
+                            A match may end in a draw if both players mutually agree that a win is unattainable, if the exact same board position occurs three times, or if a stalemate is reached where no progress is made for a set number of turns.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="faq">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i data-lucide="help-circle" class="mr-3 text-blue-600"></i> Frequently Asked Questions
+                </h2>
+                <div class="space-y-4">
+                    <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden" open>
+                        <summary class="p-4 cursor-pointer font-semibold text-slate-900 flex justify-between items-center group-open:bg-slate-50">
+                            Is capturing mandatory?
+                            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="p-4 text-sm text-slate-700 border-t border-slate-100">
+                            No, capturing is not mandatory in this version of the game. There is no "forced move" rule, which means you can choose to make a standard diagonal move even if a hit is available.
+                        </div>
+                    </details>
+                    <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden">
+                        <summary class="p-4 cursor-pointer font-semibold text-slate-900 flex justify-between items-center group-open:bg-slate-50">
+                            Can pieces jump backwards?
+                            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="p-4 text-sm text-slate-700 border-t border-slate-100">
+                            Only Kings have the ability to move or jump backwards. However, if a regular piece reaches the back row during a jump sequence, it is promoted immediately and can use its new King abilities to continue jumping backwards in that same turn.
+                        </div>
+                    </details>
+                    <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden">
+                        <summary class="p-4 cursor-pointer font-semibold text-slate-900 flex justify-between items-center group-open:bg-slate-50">
+                            How are Kings visually identified?
+                            <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-open:rotate-180"></i>
+                        </summary>
+                        <div class="p-4 text-sm text-slate-700 border-t border-slate-100">
+                            Every piece that reaches the opponent's back row is instantly marked with a yellow King icon in its center. This serves as a clear visual indicator for both players that the piece has gained multi-directional movement.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 px-6">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <p class="text-sm">© 2026 Checkers Manual - Rules and Regulations Guide</p>
+            <div class="flex space-x-6 mt-6 md:mt-0">
+                <a href="#" class="hover:text-white transition">Privacy</a>
+                <a href="#" class="hover:text-white transition">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Render the board
+        const boardContainer = document.getElementById('checkers-board');
+        
+        // Piece positions from the PDF
+        const player2Pieces = ['A2', 'A4', 'A6', 'A8', 'B1', 'B3', 'B5', 'B7', 'C2', 'C4', 'C6', 'C8'];
+        const player1Pieces = ['F1', 'F3', 'F5', 'F7', 'G2', 'G4', 'G6', 'G8', 'H1', 'H3', 'H5', 'H7'];
+
+        const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+        const cols = [1, 2, 3, 4, 5, 6, 7, 8];
+
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                const coord = rows[r] + cols[c];
+                const square = document.createElement('div');
+                square.className = `square ${(r + c) % 2 === 0 ? 'light' : 'dark'}`;
+                
+                if (player1Pieces.includes(coord)) {
+                    const piece = document.createElement('div');
+                    piece.className = 'piece blue';
+                    square.appendChild(piece);
+                } else if (player2Pieces.includes(coord)) {
+                    const piece = document.createElement('div');
+                    piece.className = 'piece gray';
+                    square.appendChild(piece);
+                }
+                
+                boardContainer.appendChild(square);
+            }
+        }
+    </script>
+</body>
+</html>
